@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Todo list</h1>
+    <h2><b>UserName: </b> {{user.username}}</h2>
+    <a href="{% url 'logout' %}">logout</a>
+    <p><a href="{% url 'add' %}">add task</a></p>
+    {% for task in data %}
+    <div>
+    <ul>
+    <li>
+        <p>{{task.id}} {{task.title}}</p>
+        <p>{{task.desc}}</p>
+        <div>
+            <a href="{% url 'details' task.id %}">View More</a>
+        </div>
+    </li>
+    </ul>
+    </div>
+    {% endfor %}
+</body>
+</html>
