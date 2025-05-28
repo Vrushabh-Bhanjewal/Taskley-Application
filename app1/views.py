@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
 from .models import Task
 from django.contrib .auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import login,logout
@@ -8,13 +7,32 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def todoList(request):
     data=Task.objects.filter(user=request.user)
-    return render(request,'app1/todo_list.html',{'data':data})
+    count=Task.objects.filter(user=request.user,complete=False).count()
+    search=request.GET.get('search-area') or ''
+    if search:
+        data=data.filter(title__icontains=search)
+    return render(request,'app1/todo_list.html',{'data':data,'count':count,'search':search})
 
 @login_required
 def todoDetails(request,myid):
     data=Task.objects.get(id=myid)
     print(data)
     return render(request,'app1/todo_details.html',{'task':data})
+
+@login_required
+def todoEdit(request,id):
+    t=get_object_or_404(Task, id=id, user=request.user)
+    if (request.method=='POST'):
+        t.title=request.POST.get('title')
+        t.desc=request.POST.get('desc')
+        t.complete=request.POST.get('complete')=='on'
+        t.save()
+        print("print: ",t)
+        print(t.title,t.desc,t.complete)
+        return redirect('list')
+    else:
+        print('print: get method')
+        return render(request,'app1/todo_edit.html',{'task':t})
 
 @login_required
 def todoDelete(request,id):

@@ -1,16 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h1>{{task.id}} {{task.title}}</h1>
-        <p>{{task.desc}}</p>
-        <p>{{task.completed}}</p>
+{% extends 'layout/base.html' %}
+
+{% block title %}
+Taskley- Task {{task.title|truncatechars:10 }}
+{% endblock %}
+
+{% block navbar %}
+<p><a href="#">Home</a></p>
+<p class="active"><a href="{% url 'list' %}">Tasks</a></p>
+<p><a href="#">Contact</a></p>
+<p><a href="#">About Us</a></p>
+<p><a href="{% url 'logout' %}">Log Out</a></p>
+{% endblock%}
+
+{% block content %}
+<div class="back">
+    <a href="{% url 'list' %}"><i class="fa-solid fa-arrow-left"></i></a>
+</div>
+<div class="user-task">
+    <div class="task-head">
+        <span><i class="fa-solid fa-user"></i></span>
+        <div>
+            <h1 class="heading"> Hello {{user.username}}</h1>
+            <p>Your Task is {% if task.complete %} Completed {% else %} Incomplete {% endif %}</p>
+        </div>
     </div>
-    <a href="{% url 'deleted' task.id %}">delete task</a>
-</body>
-</html>
+    <div class="task-desc">
+        <p><span class="bold">Title:</span> {{task.title}}</p>
+        <p><span class="bold">Description:</span> {{task.desc}}</p>
+        <p><span class="bold">Created:</span> {{ task.created|date:"d/m/Y" }}</p>
+        <p><span class="bold">Time:</span> {{ task.created|time:"g:i A" }}</p>
+        <p><span class="bold">Since:</span> {{task.created|timesince}} ago</p>
+    </div>
+    <div class="detail-btns">
+        <a href="{% url 'deleted' task.id %}">Delete Task</a>
+        <a href="{% url 'edit' task.id %}">Edit Task</a>
+    </div>
+</div>
+{% endblock %}

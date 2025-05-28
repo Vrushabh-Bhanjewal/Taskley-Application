@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 
 {% block title %}
-Taskley- Task Create
+Taskley- Task Edit
 {% endblock %}
 
 {% block navbar %}
@@ -17,19 +17,19 @@ Taskley- Task Create
     <a href="{% url 'list' %}"><i class="fa-solid fa-arrow-left"></i></a>
 </div>
 <div class="user-form">
-    <h1>Add Task</h1>
+    <h1>Edit Task</h1>
     <form action="" method="post">
         {% csrf_token %}
         <label for="title">Title</label>
-        <input type="text" name="title"  required>
+        <input type="text" name="title" value="{{task.title}}" >
 
         <label for="Desc">Description</label>
-        <textarea rows="5" cols="40" name="desc" ></textarea>
+        <textarea rows="5" cols="40" name="desc">{{task.desc}}</textarea>
 
         <label for="complete">Completed</label>
         <input type="checkbox" id="check" name="complete" >
 
-        <input type="submit" value="Add">
+        <input type="submit" value="Update">
     </form>
 </div>
 {% endblock %}

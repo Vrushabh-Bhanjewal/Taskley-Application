@@ -1,27 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Todo list</h1>
-    <h2><b>UserName: </b> {{user.username}}</h2>
-    <a href="{% url 'logout' %}">logout</a>
-    <p><a href="{% url 'add' %}">add task</a></p>
-    {% for task in data %}
-    <div>
-    <ul>
-    <li>
-        <p>{{task.id}} {{task.title}}</p>
-        <p>{{task.desc}}</p>
+{% extends 'layout/base.html' %}
+
+{% block title %}
+Taskley- Task List
+{% endblock %}
+
+{% block navbar %}
+<p><a href="#">Home</a></p>
+<p class="active"><a href="{% url 'list' %}">Tasks</a></p>
+<p><a href="#">Contact</a></p>
+<p><a href="#">About Us</a></p>
+<p><a href="{% url 'logout' %}">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></p>
+{% endblock%}
+
+{% block content %}
+<div class="user-task">
+    <div class="task-head">
+        <span><i class="fa-solid fa-user"></i></span>
         <div>
-            <a href="{% url 'details' task.id %}">View More</a>
+            <h1 class="heading"> Hello {{user.username}}</h1>
+            <p>You have {{count}} Incomplete Tasks</p>
         </div>
-    </li>
-    </ul>
     </div>
-    {% endfor %}
-</body>
-</html>
+    <div class="task-search">
+        <form action="" method="get">
+            <input type="text" value="{{search}}" placeholder="Search Task..." name="search-area" >
+            <button>Search <i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <span>
+            <a href="{% url 'add' %}"><i class="fa-solid fa-plus"></i></a>
+        </span>
+    </div>
+    <div class="task-list">
+        {% for task in data %}
+            <div class="task-item ">
+                <p class="{% if task.complete %}strike{% endif %}">{{task.title|truncatechars:25}}</p>
+                <div class="task-icons">
+                    <a href="{% url 'details' task.id %}"><i class="fa-solid fa-angle-right"></i></a>
+                    <a href="{% url 'edit' task.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{% url 'deleted' task.id %}"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

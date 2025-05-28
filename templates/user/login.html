@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'layout/base.html' %}
+
+{% block title %}
+Taskley- login user
+{% endblock %}
+
+{% block navbar %}
+<p><a href="#">Home</a></p>
+<p><a href="{% url 'list' %}">Tasks</a></p>
+<p><a href="#">Contact</a></p>
+<p><a href="#">About Us</a></p>
+<p><a href="{% url 'register' %}">New User</a></p>
+{% endblock%}
+
+{% block content %}
+    <div class="user-form">
+
     <h1>login users </h1>
     <form action="" method="post">
         {% csrf_token %}
@@ -24,13 +33,13 @@
         {% endif %}
 
         <input type="submit" value="Login">
-        <a href="{% url 'register' %}">not Registered yet</a>
-        
-        {% if form.errors %}
+        <a href="{% url 'register' %}">Not Registered yet</a>
+
+        <!-- {% if form.errors %}
         <div style="color:red;">
             {{ form.errors }}
         </div>
-        {% endif %}
+        {% endif %} -->
     </form>
-</body>
-</html>
+    </div>
+{% endblock %}
